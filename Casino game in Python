@@ -1,0 +1,110 @@
+import random
+
+def spin_row(): #This function generates 3 random symbols
+    # by selecting them from the symbols list using random.choice.
+    symbols = ['🍒', '🍉', '🍋', '🎯', '⭐']
+
+    return [random.choice(symbols) for _ in range(3)]
+
+def print_row(row): #Displays the row of symbols (spin_row result) in a nicely formatted way, separated by " | ".
+    print("*************")
+    print(" | ".join(row))
+    print("*************")
+
+
+def get_payout(row, bet):
+    #Checks the row:If all three symbols match, calculates the payout based on the symbol.
+# Each symbol has a specific multiplier:
+# 🍒: Bet * 3
+# 🍉: Bet * 4
+# 🍋: Bet * 5
+# 🔔: Bet * 10
+# ⭐: Bet * 20
+    # If the symbols don't match, the payout is 0.
+    if row[0] == row[1] == row[2]:
+        if row[0] == "🍒":
+            return bet * 3
+        elif row[0] == "🍉":
+            return bet * 4
+        elif row [0] == "🍋":
+            return bet * 5
+        elif row [0] == '🔔':
+            return bet * 10
+        elif row [0] == '⭐':
+            return bet * 20
+
+    return 0
+
+
+def main():
+    #This is the main part of the game where everything is managed.
+    #Introduces the game and gives the player information about the symbols.
+
+    balance = 100
+    print("************************")
+    print("Welcome to Python Slots!")
+    print("Symbols: 🍒 🍉 🍋 🔔 ⭐")
+    print("************************")
+
+    while balance > 0:
+        #The loop continues as long as balance > 0. If the balance reaches zero, the game ends.
+        print(f"Current balance: ${balance}")
+
+        bet = input("Place your bet amount: ")
+        #The player enters the bet amount. The program checks:
+
+
+        if not bet.isdigit():
+            # Is it a valid number? If not, an error message is displayed.
+            print("Please enter a valid number.")
+            continue
+        bet = int(bet)
+
+        if bet > balance:
+            # Does the player have enough balance? If not, an error message is displayed.
+            print("Sorry, you don't have enough money.")
+            continue
+
+        if bet <= 0:
+            # Is the bet greater than zero? If not, an error message is displayed.
+            print("Bet must be greater than zero ")
+            continue
+
+        balance -= bet
+        #The bet is subtracted from the balance.
+        row = spin_row()
+        #The slot row is randomly generated and displayed.
+        print("Spinning row... \n")
+        print_row(row)
+
+
+        yutuq = get_payout(row, bet)
+        #The get_payout function calculates the winnings:
+
+
+        if yutuq >0:
+        #If the payout is greater than 0, it prints the winning amount.
+            print(f"Yutuq summasi ${yutuq}")
+        else:
+            print("kechiring ommanam jutolmangiz")
+        #Otherwise, it displays a message that the player didn't win.
+
+
+
+        balance += yutuq
+        play_again = input("Would you like to play again? (y/n): ").upper()
+        if play_again != 'Y':
+            break
+        #The player is asked whether they want to play another round. If they don't enter "Y", the game ends.
+
+    print("******************************************")
+    print(f"Game over! Your balance is now ${balance}")
+    #When the game ends, it displays the player's final balance.
+
+
+
+
+
+if __name__ == '__main__':
+    main()
+
